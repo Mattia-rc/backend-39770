@@ -22,5 +22,37 @@
     "thumbnail": "./img/iphone002.jpg",
     "stock": 67,
     "id": 3
+  },
+  {
+    "title": "iphone 8",
+    "description": "iphone 8 color red",
+    "price": 8800,
+    "thumbnail": "https://www.apple.com/newsroom/images/product/iphone/standard/iphone8_iphone8plus_product_red_front_back_041018_big.jpg.large.jpg",
+    "stock": 2,
+    "id": 4
+  },
+  {
+    "title": "iphone1",
+    "description": "iphone 8 color red",
+    "price": 2222,
+    "thumbnail": "https://www.apple.com/newsroom/images/product/iphone/standard/iphone8_iphone8plus_product_red_front_back_041018_big.jpg.large.jpg",
+    "stock": 2,
+    "id": 5
+  },
+  {
+    "title": "asd",
+    "description": "iphone 8 color red",
+    "price": 324234,
+    "thumbnail": "https://www.apple.com/newsroom/images/product/iphone/standard/iphone8_iphone8plus_product_red_front_back_041018_big.jpg.large.jpg",
+    "stock": 22,
+    "id": 6
+  },
+  {
+    "title": "iphone xr",
+    "description": "Iphone XR color blue",
+    "price": 80000,
+    "thumbnail": "aa",
+    "stock": 3,
+    "id": 7
   }
 ]
