@@ -100,5 +100,3 @@ class Product {
 let prod_manager = new Product('./src/data/products.json')
 
 export default prod_manager
-
-

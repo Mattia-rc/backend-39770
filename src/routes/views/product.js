@@ -1,19 +1,19 @@
 import { Router } from "express"
 
+const router_product_id = Router()
 
-const router_product = Router()
-
-router_product.get(
-    '/',
+router_product_id.get(
+    '/:pid',
     async (req,res,next) => {
         try {
-            const response = await fetch('http://localhost:8080/api/products')
+            let id = Number(req.params.pid)
+            const response = await fetch(`http://localhost:8080/api/products/${id}`)
             const data = await response.json()
             return res.render(
-                'products',    //nombre de la vista
+                'product',    //nombre de la vista
                 {           //datos dinamicos que puede llegar a necesitar la vista
                     namepage: 'Iphone Rosario ',
-                    products: data.products,
+                    products: data.product,
                     title: 'product',
                 }        
             )
@@ -24,4 +24,5 @@ router_product.get(
 )
 
 
-export default router_product
+
+export default router_product_id
