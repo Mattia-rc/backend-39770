@@ -115,17 +115,21 @@ class Cart {
 
 
 
-    async destroy_cart(cid, pid, x) {
+    async delete_cart(cid, pid, x) {
         try {
             let auxCart = this.read_cart(cid);
+            let auxCartProduct = findProduct(auxCart, pid, x);
             let auxProducts = prod_manager.read_products();
+            console.log(auxProducts);
             let auxProduct = prod_manager.read_product(pid);
-            let unitscartProduct = auxCart.products(pid).units;
-
-
-
-
-
+            function findProduct(auxCart, pid, x) {
+                let foundProduct = auxCart.products.find(product => product.id === pid);
+                if (foundProduct) {
+                    foundProduct.units -= x;
+                }
+                return foundProduct;
+                } 
+        
             for (let index = 0; index < auxProducts.length; index++) {
                 let element = auxProducts[index];
                 if (pid === element.id) {
@@ -133,16 +137,12 @@ class Cart {
                 prod_manager.update_product(pid, element);
                 }
             }
-
-            // Condition for deleting cart not defined
-            this.carts = this.carts.filter(each => each.id !== id);
-            let data_json = JSON.stringify(this.carts,null,2)
-                await fs.promises.writeFile(this.path,data_json)
-                console.log('delete cart: '+id)
-                return 200
-        } catch(error) {
-            console.log(error)
-            return null
+            let data_json = JSON.stringify(this.carts, null, 2);
+            await fs.promises.writeFile(this.path, data_json);
+            return 200;
+            } catch (error) {
+            console.log(error);
+            return null;
         }
     }
 }
