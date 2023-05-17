@@ -1,5 +1,5 @@
 import { Router } from "express"
-
+import fetch from "node-fetch";
 const router_product_id = Router()
 
 router_product_id.get(

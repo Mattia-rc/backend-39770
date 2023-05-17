@@ -1,6 +1,6 @@
 import { Router } from "express"
 
-
+import fetch from "node-fetch";
 const router_product = Router()
 
 router_product.get(

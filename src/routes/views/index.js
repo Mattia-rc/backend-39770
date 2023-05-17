@@ -10,7 +10,7 @@ const router = Router()
 
 router.use('/products',router_product)
 router.use('/',router_home)
-router.use('/products',router_product_id)
+router.use('/product',router_product_id)
 router.use('/',router_carts)
 
 

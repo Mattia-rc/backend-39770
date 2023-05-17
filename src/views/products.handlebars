@@ -1,11 +1,16 @@
 <div class="d-flex justify-content-evenly">
     {{#each products}}
         <div class="card" style="width: 15rem">
-            <img src={{this.photo}} class="card-img-top" style="width: 15rem;height:8rem">
+            <img src={{this.thumbnail}} class="card-img-top" style="width: 15rem;height:8rem">
             <div class="card-body">
                 <h5 class="card-title">{{this.title}}</h5>
                 <p class="card-text"> ${{this.price}} </p>
+                <p class="card-text"> {{this.id}} </p>
+
                 <a href="#" class="btn agregar-carrito"> Agregar al carrito </a>
+                <a href="/product" class="btn agregar-carrito"> More info </a>
+
+                
             </div>
         </div>
     {{/each}}
