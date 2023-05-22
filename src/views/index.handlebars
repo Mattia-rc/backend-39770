@@ -1,24 +1,30 @@
-    <nav class="navbar navbar-expand-sm bg-danger">
-    <div class="container-fluid">
-        <a class="navbar-brand text-light" href="#">Home</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-            <a class="nav-link text-light" href="#">Products</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link text-light" href="#">Chat</a>
-            </li>
-        </ul>
+<div class="container usuario">
+    <div>
+        
+    </div>
+    <div>
+        <h3>BIENVENIDO</h3><img src={{photo}} alt="Avatar" class="avatar"><h2>{{name}}  
+        {{#if last_name}}
+        {{last_name}}
+        {{else}}
+        Apellido desconocido</h2>
+        {{/if}}
+    </div>
+</div>
+<div class="container">
+    <div class="d-flex ">
+    {{#each produtcs}}
+
+    <div class="card">
+        <div class="">
+            <img src={{this.photo}} class="card-img-top">
+        </div>
+        <div class="card-body">
+            <h5>{{this.title}}</h5>
+            <p class="card-text">{{price}}</p>
+            <a href="#" class="btn agregar-carrito"> Agregar al carrito </a>
         </div>
     </div>
-    </nav>
-    <main class="d-flex justify-content-center align-items-center">
-        CUERPO
-    </main>
-    <footer class="bg-warning p-2 text-center">
-        PIE DE PAGINA
-    </footer>
+    {{/each}}
+</div>
+</div>

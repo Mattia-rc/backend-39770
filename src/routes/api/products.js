@@ -3,17 +3,25 @@ import prod_manager from '../../managers/product.js'
 
 const router = Router()
 
-router.post('/', async(req,res,next)=> {
+router.post('/', async (req, res, next) => {
     try {
-        let response = await prod_manager.add_product(req.body)
+        let title = req.body.title
+        let description = req.body.description
+        let price = Number(req.body.price)
+        let thumbnail = req.body.thumbnail
+        let stock = Number(req.body.stock)
+
+        let response = await prod_manager.add_product( { title, description, price, thumbnail, stock } );
         if (response===201) {
-            return res.json({ status:201,message:'product created'})
+            return res.redirect('/products') 
         }
-        return res.json({ status:400,message:'not created'})
-    } catch(error) {
-        next(error)
-    }
-})
+    
+        return res.status(400).json({ status: 400, message: 'Product not created' }); 
+        } catch (error) {
+        next(error); 
+        }
+    });
+
 router.get('/', async(req,res,next)=> {
     try {
         let products = prod_manager.read_products()
