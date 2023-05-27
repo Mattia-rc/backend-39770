@@ -1,14 +1,15 @@
 import { Router } from "express"
-import manager from '../../managers/cart.js'
+/* import manager from '../../managers/cart.js' */
 import Carts from '../../models/cart.model.js'
-import CartpID from "../../models/cartsSchema.model.js"
+import CartpID from "../../models/cartsUpdatePid.model.js"
 const router = Router()
 
 router.post('/', async(req,res,next)=> {
     try {
+        console.log(req.body)
         let response = await Carts.create(req.body)
-        if (response===201) {
-            return res.json({ status:201,message:'cart created'})
+        if (response) {
+            return res.json({ status:200,message:'cart created'})
         }
         return res.json({ status:400,message:'not created'})
     } catch(error) {
@@ -17,9 +18,9 @@ router.post('/', async(req,res,next)=> {
 })
 router.get('/', async(req,res,next)=> {
     try {
-        let all = Carts.find()
-        if (all.length>0) {
-            return res.json({ status:200,all })
+        let carts = await Carts.find()
+        if (carts.length>0) {
+            return res.json({ status:200,carts })
         }
         let message = 'not found'
         return res.json({ status:404,message })
@@ -30,9 +31,11 @@ router.get('/', async(req,res,next)=> {
 router.get('/:cid', async(req,res,next)=> {
     try {
         let id = req.params.cid
-        let one = Carts.findById(id)
-        if (one) {
-            return res.json({ status:200,one })
+        console.log(id)
+        let cart = await Carts.findById(id)
+        console.log(cart)
+        if (cart) {
+            return res.json({ status:200,cart })
         }
         let message = 'not found'
         return res.json({ status:404,message })
@@ -46,7 +49,7 @@ router.put('/:cid', async(req,res,next)=> {
         let data = req.body 
 
         let response = await Carts.findByIdAndUpdate(id,data)
-        if (response===200) {
+        if (response) {
             return res.json({ status:200,message:'cart updated'})
         }
         return res.json({ status:404,message:'not found'})
@@ -61,7 +64,7 @@ router.put("/:cid/product/:pid/:units", async (req, res, next) => {
       let cid = req.params.cid;
       let units = req.params.units;
   
-      const cart = await CartpID.findOne({ customer_id: cid });
+      const cart = await CartpID.findById(cid);
       if (!cart) {
         return res.json({ status: 404, message: "not found" });
       }

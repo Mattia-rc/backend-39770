@@ -40,7 +40,9 @@ router.get('/', async(req,res,next)=> {
     
 router.get('/:pid', async(req,res,next)=> {
     try {
+        
         let id = req.params.pid
+        console.log(id)
         let product = await Product.findById(id)
         if (product) {
             return res.json({ status:200,product })

@@ -6,6 +6,6 @@ const schema = new Schema({
     products: {type: Array, required: true}
 })
 
-const Cart = model(collection, schema)
+const Carts = model(collection, schema)
 
-export default Cart
+export default Carts

@@ -2,14 +2,13 @@ import { model, Schema } from "mongoose";
 
 let collections = "CartsID"
 
-const CartSchema = new mongoose.Schema({
-    customer_id: {type: Number, required: true},
+const schema = new Schema({
     products: [{
       product_id: {type: Number, required: true},
       units: {type: Number, required: true},
     }],
   });
 
-  const CartpID = model(collections,CartSchema)
+  const CartpID = model(collections, schema)
 
   export default CartpID
