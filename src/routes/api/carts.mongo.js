@@ -1,6 +1,7 @@
 import { Router } from "express"
 import manager from '../../managers/cart.js'
 import Carts from '../../models/cart.model.js'
+import CartpID from "../../models/cartsSchema.model.js"
 const router = Router()
 
 router.post('/', async(req,res,next)=> {
@@ -56,25 +57,35 @@ router.put('/:cid', async(req,res,next)=> {
 
 router.put("/:cid/product/:pid/:units", async (req, res, next) => {
     try {
-        let id = Number(req.params.pid);
-        let cid = Number(req.params.cid);
-        let units = Number(req.params.units);
-    
-        let response = await manager.reserve_stock(cid, id, units);
-        if (response === 200) {
-            return res.json({ status: 200, message: "cart updated" });
-        }
+      let id = req.params.pid;
+      let cid = req.params.cid;
+      let units = req.params.units;
+  
+      const cart = await CartpID.findOne({ customer_id: cid });
+      if (!cart) {
         return res.json({ status: 404, message: "not found" });
+      }
+  
+      let product = cart.products.find(p => p.product_id === id);
+      if (!product) {
+        cart.products.push({ product_id: id, units });
+      } else {
+        product.units += units;
+      }
+  
+      await cart.save();
+  
+      return res.json({ status: 200, message: "cart updated" });
     } catch (error) {
-        next(error);
+      next(error);
     }
-});
+  });
 
 
 router.delete('/:cid', async(req,res,next)=> {
     try {
         let id = Number(req.params.cid)
-        let response = await manager.destroy_cart(id)
+        let response = await Carts.findByIdAndDelete(id)
         if (response===200) {
             return res.json({ status:200,message:'cart deleted'})
         }
