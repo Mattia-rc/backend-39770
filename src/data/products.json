@@ -60,7 +60,7 @@
     "description": " Pagando con Efectivo, Transferencia/deposito, Link de pago tenes un 10% de descuento.",
     "price": 450000,
     "thumbnail": "./public/img/7.jpg",
-    "stock": 20,
+    "stock": 18,
     "id": 8
   }
 ]
