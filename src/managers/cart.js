@@ -47,7 +47,7 @@ class Cart {
     }
 
 
-    async reserve_stock(cid, pid, x) {
+     async reserve_stock(cid, pid, x) {
             try {
             let auxCart = this.read_cart(cid);
             let auxProducts = prod_manager.read_products();
@@ -92,8 +92,9 @@ class Cart {
             console.log(error);
             return null;
             }
-        }
-
+        } 
+        
+   
         async delete_cart(cid, pid, x) {
             try {
                 const cart = this.read_cart(cid);
@@ -106,7 +107,7 @@ class Cart {
 
                 if (cart.products[cartIndex].x <= 0) return
                 if (cart.products[cartIndex].x-x < 0) return
-
+                
                 cart.products[cartIndex].x -= x
 
                 cart.products = cart.products.filter(e => e.x > 0)

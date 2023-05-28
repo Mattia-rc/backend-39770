@@ -58,7 +58,7 @@ router.put('/:cid', async(req,res,next)=> {
     }
 })
 
-router.put("/:cid/product/:pid/:units", async (req, res, next) => {
+ router.put("/:cid/product/:pid/:units", async (req, res, next) => {
     try {
       let id = req.params.pid;
       let cid = req.params.cid;
@@ -83,6 +83,25 @@ router.put("/:cid/product/:pid/:units", async (req, res, next) => {
       next(error);
     }
   });
+ 
+
+/*   router.put("/:cid/product/:pid/:units", async (req, res, next) => {
+    try {
+        let pid = req.params.pid;
+        let cid = req.params.cid;
+        let units = req.params.units;
+        
+        console.log(pid, cid, units)
+        let response = await CartpID.findByIdAndUpdate(pid,units);
+        console.log(response)
+        if (response === 200) {
+            return res.json({ status: 200, message: "cart updated" });
+        }
+        return res.json({ status: 404, message: "not found" });
+    } catch (error) {
+        next(error);
+    }
+}); */
 
 
 router.delete('/:cid', async(req,res,next)=> {
