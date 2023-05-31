@@ -2,6 +2,7 @@ import { Router } from "express"
 /* import manager from '../../managers/cart.js' */
 import Carts from '../../models/cart.model.js'
 import CartpID from "../../models/cartsUpdatePid.model.js"
+
 const router = Router()
 
 router.post('/', async(req,res,next)=> {
@@ -58,27 +59,21 @@ router.put('/:cid', async(req,res,next)=> {
     }
 })
 
- router.put("/:cid/product/:pid/:units", async (req, res, next) => {
+router.put("/:cid/product/:pid/:units", async (req, res, next) => {
     try {
-      let id = req.params.pid;
-      let cid = req.params.cid;
-      let units = req.params.units;
+      const cid = req.params.cid;
+      const pid = req.params.pid;
+      const units = req.params.units;
+        
+      const result = await CartpID.reserve_stock(cid, pid, units);
   
-      const cart = await CartpID.findById(cid);
-      if (!cart) {
-        return res.json({ status: 404, message: "not found" });
+      if (result==200) {
+        return res.json({ status: 200, message: "Cart updated" });
+      } else if (result === null) {
+        return res.json({ status: 404, message: "Not found" });
       }
   
-      let product = cart.products.find(p => p.product_id === id);
-      if (!product) {
-        cart.products.push({ product_id: id, units });
-      } else {
-        product.units += units;
-      }
-  
-      await cart.save();
-  
-      return res.json({ status: 200, message: "cart updated" });
+      return res.json({ status: 500, message: "Error updating cart" });
     } catch (error) {
       next(error);
     }

@@ -5,9 +5,9 @@ function emit_data() {
     socket.emit( 
         'primer_conexion', 
         { 
-            name: 'matias',
-            last_name: 'pizarro',
-            age: 21
+            name: 'Mattia',
+            last_name: 'Bagni',
+            age: 19
         }
     )
 }
