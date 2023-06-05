@@ -1,22 +1,23 @@
 import { Router } from "express";
 
-import Message from "../../models/messages.model";
+import Message from "../../models/messages.model.js";
 
 const router = Router()
 
 router.post('/', async (req, res, next) => {
-    try {
-        let usuario = req.body.usuarioMensaje
-        let texto = req.body.inputChat
-      
+   try {
+    let usuarioMensaje = req.body.usuarioMensaje
+    let inputChat = req.body.inputChat
 
-        let response = await Product.create( { usuario, texto } );
-        if (response) {
-            console.log("mensaje cargado")
-        }
-    
-        return res.status(400).json({ status: 400, message: 'Message not save' }); 
-        } catch (error) {
-        next(error); 
-        }
+    let response = Message.create({ usuarioMensaje, inputChat })
+
+    if (response){
+        return res.json({
+            status: 200,
+            message: 'mensaje y usuario guardado'
+        })
+    }
+   } catch (error) {
+    next(error)
+   }
     });

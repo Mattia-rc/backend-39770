@@ -1,7 +1,7 @@
+
 import { Router } from "express"
-/* import manager from '../../managers/cart.js' */
 import Carts from '../../models/cart.model.js'
-import CartpID from "../../models/cartsUpdatePid.model.js"
+import Product from "../../models/product.model.js"
 
 const router = Router()
 
@@ -44,60 +44,30 @@ router.get('/:cid', async(req,res,next)=> {
         next(error)
     }
 })
-router.put('/:cid', async(req,res,next)=> {
-    try {
-        let id = req.params.cid
-        let data = req.body 
-
-        let response = await Carts.findByIdAndUpdate(id,data)
-        if (response) {
-            return res.json({ status:200,message:'cart updated'})
-        }
-        return res.json({ status:404,message:'not found'})
-    } catch(error) {
-        next(error)
-    }
-})
 
 router.put("/:cid/product/:pid/:units", async (req, res, next) => {
     try {
-      const cid = req.params.cid;
-      const pid = req.params.pid;
-      const units = req.params.units;
-        
-      const result = await CartpID.reserve_stock(cid, pid, units);
-  
-      if (result==200) {
-        return res.json({ status: 200, message: "Cart updated" });
-      } else if (result === null) {
-        return res.json({ status: 404, message: "Not found" });
-      }
-  
-      return res.json({ status: 500, message: "Error updating cart" });
+        const { cid, pid, units } = req.params;
+        let cart = await Carts.findById(cid);
+        if (!cart) {
+            return res.json({ status: 404, message: "Cart not found" }).status(404);
+        }
+        const product = await Product.findById(pid);
+        if (!product) {
+            return res.json({ status: 404, message: "Product not found" }).status(404);
+        }
+        const existingProduct = cart.products.find((item) => item.productId.equals(product._id));
+        if (existingProduct) {
+            existingProduct.quantity += Number(units);
+        } else {
+            cart.products.push({ productId: product._id, quantity: Number(units) });
+        }
+        const updatedCart = await Carts.findOneAndUpdate({ _id: cid }, { products: cart.products }, { new: true });
+        return res.json({ status: 200, cart: updatedCart }).status(200);
     } catch (error) {
       next(error);
     }
-  });
- 
-
-/*   router.put("/:cid/product/:pid/:units", async (req, res, next) => {
-    try {
-        let pid = req.params.pid;
-        let cid = req.params.cid;
-        let units = req.params.units;
-        
-        console.log(pid, cid, units)
-        let response = await CartpID.findByIdAndUpdate(pid,units);
-        console.log(response)
-        if (response === 200) {
-            return res.json({ status: 200, message: "cart updated" });
-        }
-        return res.json({ status: 404, message: "not found" });
-    } catch (error) {
-        next(error);
-    }
-}); */
-
+});
 
 router.delete('/:cid', async(req,res,next)=> {
     try {
