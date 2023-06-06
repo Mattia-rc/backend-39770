@@ -74,7 +74,7 @@ const update = async () => {
         divContainer.appendChild(del)
 
         
-        const productData = productsResponse.products.find(ele => ele.id == e.pid )
+        const productData = productsResponse.products.find(ele => ele._id == e.pid )
         
         divContainer.classList.add("cartContainer")
 
@@ -107,7 +107,7 @@ const update = async () => {
         elementProductList.appendChild(divContainer)
         
         del.addEventListener("click", async () => {
-            const response = await fetch(`${websiteUrl}/api/carts/${currentCart}/product/${productData.id}/${e.x}`, {
+            const response = await fetch(`${websiteUrl}/api/carts/${currentCart}/product/${productData._id}/${e.x}`, {
                 method: "DELETE"
             })
             .then(res => res.json())
@@ -119,7 +119,7 @@ const update = async () => {
         })
 
         remove.addEventListener("click", async () => {
-            const response = await fetch(`${websiteUrl}/api/carts/${currentCart}/product/${productData.id}/${1}`, {
+            const response = await fetch(`${websiteUrl}/api/carts/${currentCart}/product/${productData._id}/${1}`, {
                 method: "DELETE"
             })
             .then(res => res.json())
@@ -131,7 +131,7 @@ const update = async () => {
         })
 
         add.addEventListener("click", async () => {
-            const response = await fetch(`${websiteUrl}/api/carts/${currentCart}/product/${productData.id}/${1}`, {
+            const response = await fetch(`${websiteUrl}/api/carts/${currentCart}/product/${productData._id}/${1}`, {
                 method: "PUT"
             })
             .then(res => res.json())

@@ -85,10 +85,10 @@ const updateView = async () => {
         p.textContent = ConvertPrice(e.price, ".")
         total_container.appendChild(card)
 
-        const pid = e.id
+        const pid = e._id
         const units = 1
 
-        anchor.href = `/products/${e.id}`
+        anchor.href = `/products/${e._id}`
         button.addEventListener("click", async (data) => {
             const response = await fetch(`${websiteUrl}/api/carts/${currentCart}/product/${pid}/${units}`, {
                 method: "PUT",

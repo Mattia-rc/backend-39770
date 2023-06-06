@@ -108,7 +108,7 @@ const createView = async () => {
     let currentAmount = 1
 
     const currentCart = 1
-    const pid = response.product.id
+    const pid = response.product._id
     
     const add = (type) => {
         const x = 1

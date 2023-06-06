@@ -1,8 +1,8 @@
 import server from "./app.js"
 import { Server } from "socket.io"
 import fs from 'fs'
-import CartManager from "./managers/cart.js"
-
+/* import CartManager from "./managers/cart.js" */
+import CartManager from "./models/cart.model.js"
 
 const PORT = process.env.PORT || 8080 
 const ready = ()=> console.log('server ready on port '+PORT)
@@ -17,11 +17,11 @@ socket_server.on("connection", socket => {
 
         console.log("el servidor recibio una solicitud de carrito:", cartId)
         try {
-            const cart = CartManager.read_cart(cartId)
+            const cart = CartManager.find(cartId)
     
             let i = 0
     
-            cart.products.forEach(e => {
+            cart.products.find(e => {
                 i += e.x
             })
     

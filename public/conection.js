@@ -1,5 +1,5 @@
 const socket = io()
-let currentCart = 1
+let currentCart = "6472878ea5e397035b87a0e6"
 
 function emit_data() {
     socket.emit( 
