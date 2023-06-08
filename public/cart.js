@@ -51,8 +51,8 @@ const update = async () => {
     if (cartResponse.status != 200) return
 
     while (elementProductList.firstChild) elementProductList.removeChild(elementProductList.firstChild);
-
-    cartResponse.one.products.forEach(e => {
+console.log(cartResponse)
+    cartResponse.cart.products.forEach(e => {
         
         const divContainer = document.createElement("div")
         const img = document.createElement("img")
@@ -74,7 +74,7 @@ const update = async () => {
         divContainer.appendChild(del)
 
         
-        const productData = productsResponse.products.find(ele => ele._id == e.pid )
+        const productData = productsResponse.products.find(ele => ele._id == e.productId )
         
         divContainer.classList.add("cartContainer")
 

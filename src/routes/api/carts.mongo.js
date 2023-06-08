@@ -52,7 +52,7 @@ router.put("/:cid/product/:pid/:units", async (req, res, next) => {
         if (!cart) {
             return res.json({ status: 404, message: "Cart not found" }).status(404);
         }
-        const product = await Product.findById(pid);
+        const product = await Product.findById(pid)
         if (!product) {
             return res.json({ status: 404, message: "Product not found" }).status(404);
         }

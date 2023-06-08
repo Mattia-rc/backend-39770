@@ -1,8 +1,7 @@
 import server from "./app.js"
 import { Server } from "socket.io"
 import fs from 'fs'
-/* import CartManager from "./managers/cart.js" */
-import CartManager from "./models/cart.model.js"
+import Carts from "./models/cart.model.js"
 
 const PORT = process.env.PORT || 8080 
 const ready = ()=> console.log('server ready on port '+PORT)
@@ -13,18 +12,14 @@ let socket_server = new Server(http_server)
 let numUsers = 0;
 
 socket_server.on("connection", socket => {
-    socket.on("getCartContent", (cartId) => {
+    socket.on("getCartContent", async (cartId) => {
 
         console.log("el servidor recibio una solicitud de carrito:", cartId)
         try {
-            const cart = CartManager.find(cartId)
+            const cart = await Carts.findById(cartId)
     
-            let i = 0
-    
-            cart.products.find(e => {
-                i += e.x
-            })
-    
+            let i = cart.products.length
+
             socket.emit("cartUpdated", i)
         } catch (err) {
             console.log(err)
