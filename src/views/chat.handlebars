@@ -1,21 +1,14 @@
-<main>
-	<form id="messagesForm" action="./api/messages.mongo" method="post">
-	<ul class="pages bkg">
-		<li class="chat page">
-			<div class="chatArea">
-				<ul class="messages"></ul>
-			</div>
-			<input  class="inputMessage" placeholder="Type here..." id="inputChat"/>
-		</li>
-		<li class="login page">
-			<div class="form">
-				<h3 class="title">Cual es tu nickname?</h3>
-				<input  class="usernameInput" type="text" maxlength="14" id="usuarioMensaje"/>
-			</div>
-		</li>
-	</ul>
-	</form>
-</main>
+<h1>
+    Bienvenidos al CoderChat comunitario
+</h1>
 
-<script src={{script2}}></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<div>
+    <input  id="chatBox">
+</div>
+<div>
+    <p id="messageLogs"> </p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>

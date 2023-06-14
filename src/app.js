@@ -1,32 +1,97 @@
-import 'dotenv/config.js'
-import { connect } from 'mongoose'
 import express from 'express'
-import router from './routes/index.js'
-import error_handler from './middlewares/error_handler.js'
-import not_found_handler from './middlewares/not_found.js'
-import { __dirname } from './utils.js'
-import {engine} from 'express-handlebars'
+import productsRouter from './routes/products.js'
+import cartsRouter from './routes/carts.js';
+import chatRouter from './routes/chat.js';
+import handlebars from 'express-handlebars';
+import __dirname from './utils/handlebars.js';
+import {Server} from 'socket.io';
+import mongoose from "mongoose";
+import { messageModel } from './dao/models/messagesModels.js';
+import MongoStore from 'connect-mongo';
+import routerSessions from './routes/sessions.js';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import passport from 'passport'
+import initializePassport from './config/passport.config.js'
 
 
-const server = express()
+const app = express();
 
-server.engine('handlebars',engine())
-server.set('views',__dirname+'/views')
-server.set('view engine','handlebars')
-
-server.use('/public',express.static('public'))
-server.use(express.json())
-server.use(express.urlencoded({extended:true}))
-server.use('/',router)
-server.use(error_handler)
-server.use(not_found_handler)
+app.use(express.urlencoded({extended:true}))
 
 
-//database
-connect('mongodb+srv://matti:Matti1889rc@db-matti.w8286ub.mongodb.net/commerce')
+const httpServer=app.listen(8080,() => console.log('Servidor arriba en el puerto 8080'));
+const socketServer = new Server (httpServer);
 
-.then(()=>console.log("database connected"))
-.catch(err=>console.log(err))
+//Handlebars
+app.engine('handlebars', handlebars.engine());
+app.set('views',__dirname+'/views');
+app.set('view engine', 'handlebars')
+app.use(express.static(__dirname+'/public'))
+app.use('/api/chat',chatRouter);
 
 
-export default server
+//Mongoose
+mongoose.connect('mongodb+srv://matti:Matti1889rc@db-matti.w8286ub.mongodb.net/commerce', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log('Connected to database'))
+  .catch((err) => console.log(`Error connecting to database: ${err}`));
+
+//Session con Mongo
+
+app.use(cookieParser())
+
+app.use(session({
+    store: MongoStore.create({
+        mongoUrl:"mongodb+srv://matti:Matti1889rc@db-matti.w8286ub.mongodb.net/commerce",
+        mongoOptions:{useNewUrlParser:true,useUnifiedTopology:true},
+        ttl:100
+      }),
+      secret:"asd3ñc3okasod",
+      //Resave mantiene la sesión activa, de estar en false está morirá en caso de que exista inactividad
+      resave:false,
+      //saveUnitialized permite guardar cualquier sesión. De estar en false la sesión no se guardará si está vacio el objeto final
+      saveUninitialized:false
+    }))
+
+
+
+
+
+
+//Routers
+app.use(express.json());
+app.use('/api/products', productsRouter);
+app.use('/api/carts', cartsRouter);
+app.use('/api/sessions', routerSessions);
+//app.use('/api/session', routerSession);
+
+//Passport
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session())
+
+
+//******PARA EL CHAT ***** */
+let messages =[];
+socketServer.on('connection',socket =>{
+    console.log('Nuevo cliente conectado');
+
+    socket.on ('message', async data =>{
+        messages.push(data);
+        socketServer.emit('messageLogs',messages);
+        
+        await messageModel.create(data)
+    });
+
+    socket.on('login', (user) => {
+        console.log(`El usuario ${user} se ha conectado`);
+        socket.user = user;
+        socket.emit('messageLogs', messages);
+        socket.broadcast.emit('userConnected', user);
+    });
+
+})
+

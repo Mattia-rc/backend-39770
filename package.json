@@ -1,30 +1,39 @@
 {
-  "name": "express_server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "type": "module",
-  "scripts": {
-    "start": "node ./src/server.js",
-    "dev": "nodemon ./src/server.js"
-  },
-  "nodemonConfig": {
-    "ignore": [
-      "src/data/carts.json",
-      "src/data/products.json"
-    ]
-  },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.0.3",
+    "bcrypt": "^5.1.0",
+    "connect-mongo": "^5.0.0",
+    "cookie-parser": "^1.4.6",
     "express": "^4.18.2",
-    "express-handlebars": "^7.0.7",
-    "handlebars": "^4.7.7",
-    "middleware": "^1.0.0",
-    "mongoose": "^7.2.0",
+    "express-handlebars": "^7.0.4",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.0.4",
+    "mongoose-paginate-v2": "^1.7.1",
     "multer": "^1.4.5-lts.1",
-    "nodemon": "^2.0.22",
-    "socket.io": "^4.6.1"
-  }
+    "passport": "^0.6.0",
+    "passport-github2": "^0.1.12",
+    "passport-local": "^1.0.0",
+    "session-file-store": "^1.5.0",
+    "socket.io": "^4.6.1",
+    "sweetalert2": "^11.7.3"
+  },
+  "name": "backend-franco-pisapia",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/app.js",
+    "dev": "nodemon ./src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FrancoPisapia/Backend-Franco-Pisapia.git"
+  },
+  "keywords": [],
+  "author": "",
+  "type": "module",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FrancoPisapia/Backend-Franco-Pisapia/issues"
+  },
+  "homepage": "https://github.com/FrancoPisapia/Backend-Franco-Pisapia#readme",
+  "description": ""
 }
