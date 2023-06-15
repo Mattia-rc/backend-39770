@@ -9,9 +9,13 @@
 }
 
 nav,
-main{
+main,
+footer {
     width: 100%;
 }
+
+
+
 
 .bkg {
     background-color: #fff;
@@ -31,9 +35,11 @@ main{
     right: 0;
     left: 0;
     z-index: 100;
-    background: rgb(194, 217, 248);
-    background: linear-gradient(0deg, rgb(194, 217, 248) 0%, rgb(194, 217, 248) 100%);
+    background: rgb(255,188,0);
+    background: linear-gradient(0deg, rgba(255,188,0,1) 0%, rgba(255,154,0,1) 100%);
     box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
+
+
 }
 
 .navbar img {
@@ -46,6 +52,8 @@ main{
     transition: 0.3s;
 }
 
+
+
 .navbar ul li {
     transition: 0.3s;
     padding: 15px;
@@ -55,6 +63,7 @@ main{
     font-weight: bold;
     transform: scale(1.1);
     transition: 0.3s;
+
 }
 
 
@@ -74,6 +83,7 @@ main{
     box-shadow:
         0 0 0 2px rgb(255, 255, 255),
         0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+
 }
 
 .card-img-top {
@@ -82,14 +92,14 @@ main{
 }
 
 .agregar-carrito {
-    background-color: rgb(194, 217, 248);
+    background-color: orange;
     color: white;
     width: 100%;
     border-radius: 20px;
 }
 
 .sin-stock {
-    background-color: rgba(194, 217, 248, 0.493);
+    background-color: rgba(255, 166, 0, 0.493);
     color: white;
     width: 100%;
     border-radius: 20px;
@@ -127,7 +137,7 @@ h2 {
 }
 
 h5 {
-    color: lightblue;
+    color: orange;
     font-size: 18px;
 }
 
@@ -141,13 +151,15 @@ img {
 }
 
 .carousel-inner{
-    border-bottom: 5px solid  lightblue;
+    border-bottom: 5px solid  orange;
 }
 
 .bannerTop {
     width: 100%;
     height: 700px;
     margin-top: 100px;
+
+
 }
 
 .bannerTop img {
@@ -188,6 +200,7 @@ ul {
     height: 100px;
     margin-top: -100px;
     position: absolute;
+
     text-align: center;
     top: 50%;
     width: 100%;
@@ -246,6 +259,7 @@ ul {
 .chatArea {
     height: 100%;
     padding-bottom: 60px;
+
 }
 
 .messages {
@@ -265,13 +279,12 @@ ul {
     padding-right: 15px;
     text-align: right;
     text-shadow: #000;
-    color: lightblue !important;
 }
 
 /* Input */
 
 .inputMessage {
-    border: 2px solid lightblue;
+    border: 2px solid #f79400;
     bottom: 0;
     height: 60px;
     left: 0;
@@ -291,7 +304,19 @@ ul {
     background-color: transparent;
 }
 
-/* /products/:pid  */
+
+
+
+
+
+
+
+
+
+
+
+
+/* Aca abajo insert mi CSS para la pagina /products/:pid  */
 
 .prodTitle-creator {
     position: absolute;
@@ -307,6 +332,7 @@ ul {
     line-height: 35px;
     display: flex;
     align-items: center;
+
     color: rgba(0, 0, 0, 0.75);
 }
 
@@ -315,12 +341,15 @@ ul {
     width: 70%;
     height: 75%;
     left: calc(50% + 10px);
+    /*left: calc(50% - 316px/2 + 178px);*/
     top: 0px;
+
     font-family: 'Kreon';
     font-style: normal;
     font-weight: 300;
     font-size: 22px;
     line-height: 28px;
+
     color: rgba(0, 0, 0, 0.86);
 }
 
@@ -330,6 +359,7 @@ ul {
     height: 40px;
     left: calc(50% - 316px/2);
     top: calc(50% - 40px/2);
+
     font-family: 'Kreon';
     font-style: normal;
     font-weight: 300;
@@ -420,10 +450,12 @@ ul {
     line-height: 25px;
     align-items: center;
     text-align: center;
+
     display: flex;
     align-items: center;
     text-align: center;
     justify-content: center;
+
     color: #000000;
 }
 
@@ -433,10 +465,13 @@ ul {
     height: 32px;
     right: 4px;
     top: calc(50% - 32px/2);
+
     display: flex;
     align-items: center;
     text-align: center;
     justify-content: center;
+
+
     background: rgba(198, 198, 198, 0.5);
     border-radius: 8px;
 }
@@ -445,8 +480,10 @@ ul {
     position: absolute;
     width: 75%;
     height: 42px;
+
     left: calc(50% + 10px);
     bottom: calc(15%);
+
     font-family: 'Kreon';
     font-style: normal;
     font-weight: 400;
@@ -466,6 +503,7 @@ ul {
     height: 10%;
     left: calc(50% + 10px);
     bottom: calc(0px);
+
     background: rgba(198, 198, 198, 0.01);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 8px;
@@ -477,12 +515,14 @@ ul {
     height: 5%;
     left: calc(50% + 10px + 10%);
     bottom: calc(5%);
+
     display: flex;
     font-size: 1.4svh;
     align-items: center;
     text-align: center;
     justify-content: center;
     font-weight: 800;
+
     background: rgba(221, 221, 221, 0.5);
     border-radius: 0px 8px 0px 0px;
 }
@@ -493,12 +533,14 @@ ul {
     height: 5%;
     left: calc(50% + 10px + 10%);
     bottom: calc(0px);
+
     display: flex;
     font-size: 1.4svh;
     align-items: center;
     text-align: center;
     justify-content: center;
     font-weight: 800;
+
     background: rgba(221, 221, 221, 0.5);
     border-radius: 0px 0px 8px 0px;
 }
@@ -510,11 +552,13 @@ ul {
     height: 10%;
     left: calc(50% + 10px);
     bottom: calc(0px);
+
     display: flex;
     font-size: 3svh;
     align-items: center;
     text-align: center;
     justify-content: center;
+
     border: none;
     border-radius: 8px 0px 0px 8px;
 }
@@ -537,7 +581,11 @@ ul {
     position: absolute;
     width: 100%;
     height: 100%;
+    /*calc(100% - 100px);*/
+
+
     left: calc(-50% - 10px);
+
     border: 0;
     outline: 0;
     background: transparent
@@ -549,7 +597,9 @@ ul {
     height: 10%;
     left: calc(50% + 10px + 20%);
     bottom: calc(0px);
+
     border-radius: 8px;
+
     font-family: 'Kreon';
     font-style: normal;
     font-weight: 400;
@@ -559,16 +609,18 @@ ul {
     align-items: center;
     text-align: center;
     justify-content: center;
+
     border: none;
+
     color: #FFFFFF;
 }
 
 .prodAddButton-enabled {
-    background: lightblue;
+    background: #ffc400;
     scale: 1;
     transition: 0.3s;
-}
 
+}
 .prodAddButton-enabled:hover {
     background: #383838;
     color: white;
@@ -576,7 +628,7 @@ ul {
     transition: 0.3s;
 }
 
-/* localhost:8080/carts */
+/* localhost:3000/carts */
 
 .cartContainer {
     position: relative;
@@ -610,8 +662,10 @@ ul {
     align-items: center;
     text-align: center;
     justify-content: center;
+
     color: #FFFFFF;
-    background:  lightblue;
+
+    background:  #FFC107;
     border-radius: 6px;
 }
 
@@ -627,8 +681,10 @@ ul {
     height: 24px;
     right: 36px;
     bottom: 36px;
+
     background: rgba(153, 153, 153, 0.93);
     border-radius: 6px;
+
     font-family: 'Kreon';
     font-style: bold;
     font-weight: 1000;
@@ -638,6 +694,7 @@ ul {
     align-items: center;
     text-align: center;
     justify-content: center;
+
     color: #FFFFFF;
 }
 
@@ -647,6 +704,7 @@ ul {
     height: 24px;
     right: 6px;
     bottom: 36px;
+
     font-family: 'Kreon';
     font-style: bold;
     font-weight: 1000;
@@ -656,8 +714,10 @@ ul {
     align-items: center;
     text-align: center;
     justify-content: center;
+
     background: rgba(153, 153, 153, 0.93);
     border-radius: 6px;
+
     color: #FFFFFF;
 }
 
@@ -667,6 +727,7 @@ ul {
     height: 24px;
     left: 200px;
     top: 120px;
+
     font-family: 'Kreon';
     font-style: normal;
     font-weight: 400;
@@ -674,6 +735,7 @@ ul {
     line-height: 23px;
     display: flex;
     align-items: center;
+
     color: #000000;
 
 }
@@ -684,6 +746,7 @@ ul {
     height: 20px;
     left: 200px;
     top: 6px;
+
     font-family: 'Kreon';
     font-style: normal;
     font-weight: 600;
@@ -691,7 +754,8 @@ ul {
     line-height: 25px;
     display: flex;
     align-items: center;
-    color: lightblue;
+
+    color: #FFC107;
 }
 
 .cartAmountProductsText {
@@ -700,6 +764,7 @@ ul {
     height: 20px;
     left: 200px;
     top: 30px;
+
     font-family: 'Kreon';
     font-style: normal;
     font-weight: 300;
@@ -707,6 +772,7 @@ ul {
     line-height: 23px;
     display: flex;
     align-items: center;
+
     color: #000000;
 }
 
@@ -715,6 +781,7 @@ ul {
     width: 125px;
     height: 138px;
     top: calc(50% - 138px/2);
+
     background: #ffffff;
     border-radius: 8px;
     outline: 0;
@@ -724,11 +791,12 @@ ul {
 .checkoutButton {
     position: relative;
     width: 200px;
-    height: 50px;
+    height: 80px;
     left: 5px;
-    background: lightblue;
+    background: #FFC107;
     border-radius: 6px;
     margin: 15px;
+
     font-family: 'Kreon';
     font-style: normal;
     font-weight: 900;
@@ -737,10 +805,12 @@ ul {
     display: flex;
     align-items: center;
     justify-content: center;
+
     color: #ffffff;
 }
-
 .checkoutButton:hover {
+
     background: #b3b3b3;
     transition: 0.3s;
+
 }

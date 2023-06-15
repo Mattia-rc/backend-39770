@@ -1,7 +1,6 @@
 import { Router } from "express"
-import auth_router from "./auth.js"
-import ProductManager from "../../managers/product.js"
 import { ProductsArrayConvert } from "../../devUtils.js"
+import Products from '../../models/product.model.js'
 
 const router = Router()
 
@@ -9,13 +8,15 @@ router.get(
     '/',
     async (req,res,next) => {
         try {
+            //let hola = chau
             return res.render(
-                'index',   
+                'index',    //nombre de la vista
                 {         
-                    name: 'Matias',
-                    last_name: 'Pizarro',
-                    photo: '',
+                    name: 'Nico',
+                    last_name: 'Lopez',
+                    photo: 'https://www.w3schools.com/howto/img_avatar.png',
 
+                    
                     title: 'index',
                     script: '/public/conection.js'
                 }        
@@ -27,7 +28,6 @@ router.get(
 )
 
 router.get("/products/:pid", async (req, res, next) => {
-
     try {
         return res.render("view_product", {
             script2: '/public/uniqueProduct.js',
@@ -39,30 +39,45 @@ router.get("/products/:pid", async (req, res, next) => {
     }
 })
 
-router.get(
-    '/products',
-    async(req,res,next) => {
-        try {
-
-            const prods = ProductManager.read_products()
-            const prodsClone = JSON.parse(JSON.stringify(prods)) 
-            const products = ProductsArrayConvert(prodsClone)
-
-            return res.render('products', {
-                products: products,
-                title: 'Products Page',
-                topTitle: `Products: ${products.length}`,
-                script: '/public/products.js',
-                conection: '/public/conection.js',
-                cart: 'numProducts'
-            })
-
-        } catch (error) {
-            console.log(error)
-            next()
+router.get('/products', async (req, res, next) => {
+    try {
+        const pageNumber = parseInt(req.query.page) || 1;
+        const productsPerPage = +req.query.limit || 5;
+        const filter = req.query.filter || "";
+        const query = {};
+        if (filter) {
+            query.title = { $regex: filter, $options: "i" };
         }
+        
+        const products = await Products.paginate(query, { page: pageNumber, limit: productsPerPage });
+        console.log(products)
+
+        const formattedProducts = products.docs.map(product => ({
+            title: product.title,
+            thumbnail: product.thumbnail,
+            price: product.price,
+            link: `/products/${product._id}`
+        }));
+
+        return res.render('products', {
+            //products: formattedProducts,
+            title: 'Products Page',
+            //topTitle: `Total Products: ${products.totalDocs}`,
+            //limit: `Productos por pagina ${products.limit}`,
+            conection: '/public/conection.js',
+            script2: "/public/products.js",
+            //cart: 'numProducts',
+            //paginationprev: `${products.prevPage}`,
+           // paginationnext: `${products.nextPage}`,
+            //currentPage: `Pagina ${pageNumber}`,
+            //totalPages: products.totalPages,
+            //filter: filter
+        });
+    } catch (error) {
+        console.log(error);
+        next(error);
     }
-)
+});
 
 router.get(
     '/new_product',
@@ -85,10 +100,11 @@ router.get(
     '/carts',
     async(req,res,next) => {
         try {
+            
             return res.render('carts', {
-                name: 'Matias',
-                last_name: 'Pizarro',
-                photo: '',
+                name: 'Nico',
+                last_name: 'Lopez',
+                photo: 'https://www.w3schools.com/howto/img_avatar.png',
                 script: "public/cart.js",
                 conection: '/public/conection.js'
             })
@@ -144,7 +160,6 @@ router.get(
     }
 )
 
-router.use('/auth',auth_router)
 
 
 export default router

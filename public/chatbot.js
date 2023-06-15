@@ -68,7 +68,6 @@ document.addEventListener('DOMContentLoaded', function () {
             loginPage.removeEventListener('click', setUsername)
             currentInput = inputMessage
             socket.emit('add user', username)
-            
         }
     }
     const sendMessage = () => {
@@ -102,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
         usernameDiv.classList.add('username')
         usernameDiv.textContent = data.username
         usernameDiv.style.color = getUsernameColor(data.username)
-        console.log(username)
+
         const messageBodyDiv = document.createElement('span')
         messageBodyDiv.classList.add('messageBody')
         messageBodyDiv.textContent = data.message
@@ -132,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     const addMessageElement = (el, options) => {
         const $el = el
-        console.log(el)
+
         options = options || {}
         if (typeof options.fade === 'undefined') {
             options.fade = true;
@@ -177,7 +176,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const getTypingMessages = data => {
         const typingMessages = Array.from(document.querySelectorAll('.typing.message')).filter(message => {
             return message.dataset.username === data.username
-            
         });
         return typingMessages
     }
