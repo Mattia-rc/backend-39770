@@ -5,9 +5,9 @@ function emit_data() {
     socket.emit( //emit envia datos (en este caso desde el cliente hacia el servidor)
         'primer_conexion', //identificador del mensaje
         { //objeto con las propiedades a enviar (en este caso al servidor)
-            name: 'Nico',
-            last_name: 'Lopez',
-            age: 37
+            name: 'Mattia',
+            last_name: 'Bagni',
+            age: 19
         }
     )
 }
