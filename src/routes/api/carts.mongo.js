@@ -30,20 +30,14 @@ router.get('/:cid', async (req, res, next) => {
     try {
         let id = req.params.cid
         const one = await Carts.findById(id).populate({
-            path: 'products',
-            populate: {
-                path: 'product',
-                model: "products"
-            }
-        }).exec()
-
+            path: 'products.product',
+            model: 'products'
+        })
         one.products.sort((a, b) => {
             if (a.product.title < b.product.title) return -1
             if (a.product.title > b.product.title) return 1
             return 0
         })
-        // intente con la parte de abajo y nose, no pude.
-        //let one = await Carts.findById(id).populate("products.product").sort({"products.units": "desc"})
         return res.status(200).json(one)
     } catch (error) {
         next(error)
