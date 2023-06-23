@@ -8,17 +8,23 @@ const verify = a => {
     if (a != undefined || a != null) return true
     return false
 }
-router.use((req, res, next) => { // middleware para validar propiedades obligatorias
-    const { name, photo, mail, role, password } = req.body
 
-    if (verify(name) && verify(mail) && verify(role) && verify(password)) {
-        next()
-    } else {
-        return res.status(400).json({
-            success: false,
-            message: "missing required data"
-        })
+router.use((req, res, next) => { // middleware para validar propiedades obligatorias
+    try{
+        const { name, photo, mail, role, password } = req.body
+
+        if (verify(name) && verify(mail) && verify(role) && verify(password)) {
+            next()
+        } else {
+            return res.status(400).json({
+                success: false,
+                message: "missing required data"
+            })
+        }
+    } catch(err) {
+        next(err)
     }
+    
 })
 
 router.use((req, res, next) => { // middleware para validar la contraseña
@@ -34,7 +40,7 @@ router.use((req, res, next) => { // middleware para validar la contraseña
     }
 })
 
-router.post('/register', async (req, res, next) => {
+router.post('/', async (req, res, next) => {
     try {
         const { name, photo, mail, role, password } = req.body
         const response = await Users.create({
@@ -45,7 +51,7 @@ router.post('/register', async (req, res, next) => {
             password
         })
 
-        return res.status(201).json({ success: true, message: "created" })
+        return res.redirect('/perfil')
     } catch (err) {
         next(err)
     }

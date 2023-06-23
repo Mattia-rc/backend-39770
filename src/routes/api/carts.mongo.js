@@ -30,14 +30,20 @@ router.get('/:cid', async (req, res, next) => {
     try {
         let id = req.params.cid
         const one = await Carts.findById(id).populate({
-            path: 'products.product',
-            model: 'products'
-        })
+            path: 'products',
+            populate: {
+                path: 'product',
+                model: "products"
+            }
+        }).exec()
+
         one.products.sort((a, b) => {
             if (a.product.title < b.product.title) return -1
             if (a.product.title > b.product.title) return 1
             return 0
         })
+        // intente con la parte de abajo y nose, no pude.
+        //let one = await Carts.findById(id).populate("products.product").sort({"products.units": "desc"})
         return res.status(200).json(one)
     } catch (error) {
         next(error)
@@ -62,15 +68,12 @@ router.put('/:cid', async (req, res, next) => {
 
 router.put("/:cid/product/:pid/:units", async (req, res, next) => {
     try {
-        let id = req.params.pid;
-        let cid = req.params.cid;
-        let units = Number(req.params.units);
+        const id = req.params.pid;
+        const cid = req.params.cid;
+        const units = Number(req.params.units);
 
-        let cart = await Carts.findById(cid)
-        let product = await Products.findById(id)
-
-        console.log(cart)
-        console.log(product)
+        const cart = await Carts.findById(cid)
+        const product = await Products.findById(id)
 
         if (cart && product) {
             if (product.stock >= units) {

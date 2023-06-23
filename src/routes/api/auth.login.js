@@ -1,5 +1,6 @@
 import { Router } from "express"
 import Users from "../../models/user.model.js"
+import session from 'express-session';
 
 const router = Router()
 
@@ -39,10 +40,10 @@ router.use((req, res, next) => { // middleware para validar la contraseña
     }
 })
 
-router.post('/login', async (req, res, next) => {
+router.post('/', async (req, res, next) => {
     try {
 
-        if (req.session.mail) return res.status(400).json({success: false, message: "user is already logged in"})
+        if (req.session.mail) return res.status(400).json({ success: false, message: "user is already logged in" })
 
         const { mail, password } = req.body
         if (!mail && !password) return res.status(401).json({ success: false, message: "invalid mail or password" })
@@ -56,13 +57,17 @@ router.post('/login', async (req, res, next) => {
         req.session.mail = finded.mail
         req.session.role = finded.role
 
-        console.log(req.session)
-        return res.status(200).json({success: true, message: "user is now logged in"})
+        console.log(req.session.mail)
+        return res.status(200).redirect('/perfil')
+        // .send({
+        //     email: req.session.email
+        // })
     } catch (err) {
         next()
     }
 
 })
+
 
 
 
