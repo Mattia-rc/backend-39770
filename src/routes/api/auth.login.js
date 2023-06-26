@@ -51,9 +51,7 @@ router.post('/', async (req, res, next) => {
         const finded = await Users.findOne({ mail: String(mail).toLowerCase(), password: String(password) }).exec()
         if (!finded) return res.status(401).json({ success: false, message: "invalid login" })
 
-        //console.log(req.signedCookies)
-        // hola nico el max age 604800 * 1000 es debido a que la cookie debe durar 7 dias segun el HOL
-        //return res.cookie("sessionCookie", JSON.stringify({ u: finded.mail, pw: finded.password }), { maxAge: 604800 * 1000, signed: true }).status(201).json({ success: true, message: "user is now logged in" })
+        
         req.session.mail = finded.mail
         req.session.role = finded.role
 

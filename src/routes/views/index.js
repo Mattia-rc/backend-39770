@@ -13,8 +13,8 @@ router.get(
             return res.render(
                 'index', 
                 {
-                    name: 'Nico',
-                    last_name: 'Lopez',
+                    name: 'Mattia',
+                    last_name: 'Bagni',
                     photo: 'https://www.w3schools.com/howto/img_avatar.png',
                     title: 'index',
                     script: '/public/conection.js',
