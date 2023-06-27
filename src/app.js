@@ -7,6 +7,10 @@ import { __dirname } from './utils.js'
 import {engine} from 'express-handlebars'
 import session from 'express-session'
 import mongoStore from 'connect-mongo'
+import cookieParser from 'cookie-parser'
+import passport from 'passport'
+import inicializePassport from './config/passport.js'
+
 
 
 const server = express()
@@ -15,6 +19,7 @@ server.engine('handlebars',engine())
 server.set('views',__dirname+'/views')
 server.set('view engine','handlebars')
 
+server.use(cookieParser(process.env.SECRET_COOKIE))
 server.use(session({
     secret: process.env.SECRET_SESSION,
     resave: true,
@@ -24,15 +29,14 @@ server.use(session({
         ttl: 604800*1000
     })
 }))
+inicializePassport()
+server.use(passport.initialize())
+server.use(passport.session())
 server.use('/public',express.static('public'))
 server.use(express.json())
 server.use(express.urlencoded({extended:true}))
 server.use('/',router)
 server.use(error_handler)
 server.use(not_found_handler)
-
-
-
-
 
 export default server
