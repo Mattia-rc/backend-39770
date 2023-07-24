@@ -55,30 +55,28 @@ export default function () {
         'github',
         new GHStrategy(
             { clientID: process.env.GITHUB_CLIENTID, clientSecret: process.env.GITHUB_SECRET, callbackURL: process.env.GITHUB_CALLBACK },
-            async (accessToken, refreshToken, profile, done) => {
+            async(accessToken,refreshToken,profile,done)=>{
                 try {
-                    let one = await Users.findOne({ mail: profile._json.login })
-                    console.log(profile._json)
-                    if (!one) {
-                        let user = await Users.create({
-                            first_name: profile._json.name || "Github User",
-                            last_name: "GitHub user", // hardcodeado por que no tira mas data gh
-                            mail: profile._json.login,
-                            age: 18,
-                            photo: profile._json.avatar_url,
-                            password: profile._json.id
-                        })
-                        console.log(user)
-                        return done(null, user)
+                    console.log(profile)
+                    let one = await Users.findOne({ email: profile._json.login })//los datos del usauario vienen de github(la propiedad profile no del formulario)
+                    if(one){                                                     //si encuentro un usuario, inyecto la propiedad req.user cn los dats de one para poder directamente loguearlo
+                        return done(null, one)                                  
                     }
-                    return done(null, one)
+                    let user = await Users.create({
+                       name: profile._json.name,
+                       mail: profile._json.login,
+                       age:18,
+                       password: 'hola1234',
+                       photo:profile._json.avatar_url
+                    })
+                    return done(null, user)
                 } catch (error) {
                     return done(error)
                 }
             }
         )
     )
-
+    
     passport.use("jwt",
         new jwt.Strategy({
             jwtFromRequest: jwt.ExtractJwt.fromExtractors([(req) => req?.cookies.token ]),
