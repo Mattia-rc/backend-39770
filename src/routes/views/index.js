@@ -16,8 +16,8 @@ router.get(
             return res.render(
                 'index', 
                 {
-                    name: 'Nico',
-                    last_name: 'Lopez',
+                    name: 'mattia',
+                    last_name: 'bagni',
                     photo: 'https://www.w3schools.com/howto/img_avatar.png',
                     title: 'index',
                     script: '/public/conection.js',
@@ -120,8 +120,8 @@ router.get(
         try {
             const { token } = req.cookies
             return res.render('carts', {
-                name: 'Nico',
-                last_name: 'Lopez',
+                name: 'mattia',
+                last_name: 'bagni',
                 photo: 'https://www.w3schools.com/howto/img_avatar.png',
                 script: "public/cart.js",
                 conection: '/public/conection.js',
@@ -133,6 +133,8 @@ router.get(
         }
     }
 )
+
+
 
 
 router.get(

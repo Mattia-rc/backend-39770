@@ -10,15 +10,15 @@
   },
   "nodemonConfig": {
     "ignore": [
-      "src/data/carts.json",
-      "src/data/products.json"
+      "src/dao/data/carts.json",
+      "src/dao/data/products.json"
     ]
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/mongoose": "^5.11.97",
-    "bcrypt": "^5.1.0",
+    "bcrypt": "^5.0.1",
+    "commander": "^11.0.0",
     "connect-mongo": "^5.0.0",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.3.1",
@@ -31,7 +31,7 @@
     "mongoose": "^7.3.0",
     "mongoose-paginate-v2": "^1.7.1",
     "multer": "^1.4.5-lts.1",
-    "nodemon": "^2.0.22",
+    "nodemon": "^1.14.9",
     "passport": "^0.6.0",
     "passport-github2": "^0.1.12",
     "passport-jwt": "^4.0.1",

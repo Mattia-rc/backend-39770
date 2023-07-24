@@ -3,37 +3,31 @@ import { Strategy } from "passport-local";
 import Users from "../models/user.model.js";
 import GHStrategy from "passport-github2"
 import jwt from "passport-jwt"
-const { GH_CLIENT_ID, GH_CLIENT_SECRET} = process.env
-const callback = "http://localhost:8080/api/auth/github/callback"
-
-
-
-
 
 export default function () {
     passport.serializeUser(
-        (user,done)=> done(null,user._id)
+        (user, done) => done(null, user._id)
     )
     passport.deserializeUser(
-    async(id,done)=> {
-        const user = await Users.findById(id)
-        return done(null,user)
-    }
+        async (id, done) => {
+            const user = await Users.findById(id)
+            return done(null, user)
+        }
     )
     passport.use(
         'register',
         new Strategy(
-            { passReqToCallback:true,usernameField:'mail' },
-            async (req,userName,password,done) => {
+            { passReqToCallback: true, usernameField: 'mail' },
+            async (req, userName, password, done) => {
                 try {
-                    let one = await Users.findOne({ mail:userName })
+                    let one = await Users.findOne({ mail: userName })
                     if (!one) {
                         let user = await Users.create(req.body)
-                        return done(null,user)
+                        return done(null, user)
                     }
-                    return done(null,false)
+                    return done(null, false)
                 } catch (error) {
-                    return done(error,false)
+                    return done(error, false)
                 }
             }
         )
@@ -42,47 +36,48 @@ export default function () {
     passport.use(
         'signin',
         new Strategy(
-            { usernameField:'mail' },
-            async (userName,password,done) => {
+            { usernameField: 'mail' },
+            async (userName, password, done) => {
                 try {
-                    let one = await Users.findOne({ mail:userName })
+                    let one = await Users.findOne({ mail: userName })
                     if (one) {
-                        return done(null,one)
+                        return done(null, one)
                     }
-                    return done(null,false)
+                    return done(null, false)
                 } catch (error) {
-                    return done(error,false)
+                    return done(error, false)
                 }
             }
         )
     )
 
- 
-    passport.use(//estrategia de registro con github
+    passport.use(
         'github',
         new GHStrategy(
-            { clientID: GH_CLIENT_SECRET, clientSecret: GH_CLIENT_SECRET, callbackURL:callback},
-            async(accessToken,refreshToken,profile,done)=>{
+            { clientID: process.env.GITHUB_CLIENTID, clientSecret: process.env.GITHUB_SECRET, callbackURL: process.env.GITHUB_CALLBACK },
+            async (accessToken, refreshToken, profile, done) => {
                 try {
-                    console.log(profile)
-                    let one = await Users.findOne({ email: profile._json.login })//los datos del usauario vienen de github(la propiedad profile no del formulario)
-                    if(one){                                                     //si encuentro un usuario, inyecto la propiedad req.user cn los dats de one para poder directamente loguearlo
-                        return done(null, one)                                  
+                    let one = await Users.findOne({ mail: profile._json.login })
+                    console.log(profile._json)
+                    if (!one) {
+                        let user = await Users.create({
+                            first_name: profile._json.name || "Github User",
+                            last_name: "GitHub user", // hardcodeado por que no tira mas data gh
+                            mail: profile._json.login,
+                            age: 18,
+                            photo: profile._json.avatar_url,
+                            password: profile._json.id
+                        })
+                        console.log(user)
+                        return done(null, user)
                     }
-                    let user = await Users.create({
-                       name: profile._json.name,
-                       mail: profile._json.login,
-                       age:18,
-                       password: 'hola1234',
-                       photo:profile._json.avatar_url
-                    })
-                    return done(null, user)
+                    return done(null, one)
                 } catch (error) {
                     return done(error)
                 }
             }
         )
-    ) 
+    )
 
     passport.use("jwt",
         new jwt.Strategy({
@@ -103,6 +98,5 @@ export default function () {
             }
         })
     )
-    
-    
+
 }
