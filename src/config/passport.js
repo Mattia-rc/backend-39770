@@ -3,7 +3,7 @@ import { Strategy } from "passport-local";
 import Users from "../models/user.model.js";
 import GHStrategy from "passport-github2"
 import jwt from "passport-jwt"
-
+const callback = "http://localhost:8080/api/auth/github/callback"
 export default function () {
     passport.serializeUser(
         (user, done) => done(null, user._id)
@@ -54,7 +54,7 @@ export default function () {
     passport.use(
         'github',
         new GHStrategy(
-            { clientID: process.env.GITHUB_CLIENTID, clientSecret: process.env.GITHUB_SECRET, callbackURL: process.env.GITHUB_CALLBACK },
+            { clientID: process.env.GITHUB_CLIENTID, clientSecret: process.env.GITHUB_SECRET, callbackURL: callback },
             async(accessToken,refreshToken,profile,done)=>{
                 try {
                     console.log(profile)
