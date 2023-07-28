@@ -1,6 +1,6 @@
 import { Router } from "express"
-import Users from "../../models/user.model.js"
-import session from 'express-session';
+// import Users from "../../models/user.model.js"
+// import session from 'express-session';
 import isValidPassword from "../../middlewares/is_valid_password.js";
 import passport from "passport"
 import create_hash from "../../middlewares/create_hash.js";
@@ -11,8 +11,23 @@ import generatejwt from "../../middlewares/jwt_generate.js";
 import passport_call from "../../middlewares/passport_call.js"
 import jwt from "jsonwebtoken"
 
+
+
 const router = Router()
 
+router.get('/mail', async (req,res)=> {
+    await sendMail()
+    res.send('Email enviado')
+})
+
+router.get('/sms', async (req,res)=> {
+    await sendSms('Nicolas', 'Lopez')       
+    res.send('SMS enviado')
+})
+router.get('/whatsapp', async (req,res)=> {  
+    await sendWhatsapp('Nicolas', 'Lopez')    
+    res.send('SMS enviado')
+})
 
 router.post('/register',
     validator_register,

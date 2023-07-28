@@ -1,7 +1,5 @@
 import {Router} from "express"
-import Products from '../../models/product.model.js'
-import session from "express-session"
-import Users from "../../models/user.model.js"
+import Products from '../../dao/mongo/models/product.model.js'
 import passport_call from "../../middlewares/passport_call.js"
 import authorization from "../../middlewares/authorization.js"
 
@@ -16,8 +14,8 @@ router.get(
             return res.render(
                 'index', 
                 {
-                    name: 'mattia',
-                    last_name: 'bagni',
+                    name: 'Nico',
+                    last_name: 'Lopez',
                     photo: 'https://www.w3schools.com/howto/img_avatar.png',
                     title: 'index',
                     script: '/public/conection.js',
@@ -120,8 +118,8 @@ router.get(
         try {
             const { token } = req.cookies
             return res.render('carts', {
-                name: 'mattia',
-                last_name: 'bagni',
+                name: 'Nico',
+                last_name: 'Lopez',
                 photo: 'https://www.w3schools.com/howto/img_avatar.png',
                 script: "public/cart.js",
                 conection: '/public/conection.js',

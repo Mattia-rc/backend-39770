@@ -1,9 +1,9 @@
 import passport from "passport";
 import { Strategy } from "passport-local";
-import Users from "../models/user.model.js";
+import Users from "../dao/mongo/models/user.model.js";
 import GHStrategy from "passport-github2"
 import jwt from "passport-jwt"
-const callback = "http://localhost:8080/api/auth/github/callback"
+
 export default function () {
     passport.serializeUser(
         (user, done) => done(null, user._id)
@@ -54,29 +54,31 @@ export default function () {
     passport.use(
         'github',
         new GHStrategy(
-            { clientID: process.env.GITHUB_CLIENTID, clientSecret: process.env.GITHUB_SECRET, callbackURL: callback },
-            async(accessToken,refreshToken,profile,done)=>{
+            { clientID: process.env.GITHUB_CLIENTID, clientSecret: process.env.GITHUB_SECRET, callbackURL: process.env.GITHUB_CALLBACK },
+            async (accessToken, refreshToken, profile, done) => {
                 try {
-                    console.log(profile)
-                    let one = await Users.findOne({ email: profile._json.login })//los datos del usauario vienen de github(la propiedad profile no del formulario)
-                    if(one){                                                     //si encuentro un usuario, inyecto la propiedad req.user cn los dats de one para poder directamente loguearlo
-                        return done(null, one)                                  
+                    let one = await Users.findOne({ mail: profile._json.login })
+                    console.log(profile._json)
+                    if (!one) {
+                        let user = await Users.create({
+                            first_name: profile._json.name || "Github User",
+                            last_name: "GitHub user", // hardcodeado por que no tira mas data gh
+                            mail: profile._json.login,
+                            age: 18,
+                            photo: profile._json.avatar_url,
+                            password: profile._json.id
+                        })
+                        console.log(user)
+                        return done(null, user)
                     }
-                    let user = await Users.create({
-                       name: profile._json.name,
-                       mail: profile._json.login,
-                       age:18,
-                       password: 'hola1234',
-                       photo:profile._json.avatar_url
-                    })
-                    return done(null, user)
+                    return done(null, one)
                 } catch (error) {
                     return done(error)
                 }
             }
         )
     )
-    
+
     passport.use("jwt",
         new jwt.Strategy({
             jwtFromRequest: jwt.ExtractJwt.fromExtractors([(req) => req?.cookies.token ]),

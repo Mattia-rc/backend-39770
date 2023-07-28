@@ -3,7 +3,7 @@ import express from 'express'
 import router from './routes/index.js'
 import error_handler from './middlewares/error_handler.js'
 import not_found_handler from './middlewares/not_found.js'
-import { __dirname } from './utils.js'
+import { __dirname } from '../src/utils/utils.js'
 import {engine} from 'express-handlebars'
 import session from 'express-session'
 import mongoStore from 'connect-mongo'
@@ -28,6 +28,11 @@ server.use(session({
         ttl: 604800*1000
     })
 }))
+
+
+
+
+
 inicializePassport()
 server.use(passport.initialize())
 server.use(passport.session())
