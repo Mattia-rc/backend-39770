@@ -10,7 +10,8 @@ import validator_signin from "../../middlewares/validator_signin.js"
 import generatejwt from "../../middlewares/jwt_generate.js";
 import passport_call from "../../middlewares/passport_call.js"
 import jwt from "jsonwebtoken"
-
+import sendMail from "../../utils/sendMail.js";
+import { sendSms, sendWhatsapp } from '../../utils/sendSms.js';
 
 
 const router = Router()
@@ -107,8 +108,8 @@ router.get("/fail-register", async (req, res, next) => {
 
 router.get("/current", passport_call("jwt"), async (req, res, next) => {
     const data = await jwt.verify(req.cookies.token, process.env.JWT_SECRET, async (error, credentials) => {
-        if (error) return { message: "error to get token credentials" }
-        return credentials
+        if (error) return { message: "error to get token credentials" };
+        return credentials;
     })
     return res.status(200).json(data)
 })

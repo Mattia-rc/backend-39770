@@ -3,13 +3,9 @@ import mongoose from "mongoose";
 //get http:// dominio.com
 
 class MongoSingleton {
-    static #instance
+    static #instance;
     constructor(){
-        mongoose.connect('mongodb+srv://matti:Matti1889rc@db-matti.w8286ub.mongodb.net/commerce',{
-            useNewUrlParse: true,
-            useInifiedTopology: true,
-
-        })
+        mongoose.connect('mongodb+srv://matti:Matti1889rc@db-matti.w8286ub.mongodb.net/commerce');
     }
 
     static getInstance(){
@@ -24,4 +20,4 @@ class MongoSingleton {
     }
 }
 
-module.export = MongoSingleton
+export default MongoSingleton
