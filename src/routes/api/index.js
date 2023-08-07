@@ -10,4 +10,34 @@ router.use('/products', products_router)
 router.use('/carts', carts_router)
 router.use('/auth', auth_router)
 
+
+router.get('/mockusers', (req,res)=>{
+    const { limit } = req.query
+
+    const users = []
+    for(let i = 0; i < (limit||100); i++){
+        users.push(generateUser())
+    }
+
+    return res.status(200).json({
+        status:'success',
+        payload: users
+    })
+})
+
+// Endpoint solo para pruebas, /api/mockusers
+router.get('/mockingproducts', (req,res) => {
+    const { limit } = req.query
+
+    const products = []
+    for(let i = 0; i < (limit||100); i++){
+        products.push(generateProduct())
+    }
+
+    return res.status(200).json({
+        status:'success',
+        payload: products
+    })
+})
+
 export default router
