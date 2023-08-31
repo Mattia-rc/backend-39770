@@ -1,18 +1,28 @@
-
-<div class="container">
-    <div class="d-flex ">
-    {{#each produtcs}}
-
-    <div class="card">
-        <div class="">
-            <img src={{this.photo}} class="card-img-top">
+<div class="container-fluid">
+    <section id="promociones" class="promotions">
+    <div class="container">
+        <h2 class="section-title">Promociones</h2>
+        <div class="promotion">
+            <h3 class="promotion-title">3 Cuotas sin Interés</h3>
+            <p class="promotion-description">Paga tus telefonos en 3 cuotas sin intereses.</p>
         </div>
-        <div class="card-body">
-            <h5>{{this.title}}</h5>
-            <p class="card-text">{{price}}</p>
-            <a href="#" class="btn agregar-carrito"> Agregar al carrito </a>
+        <div class="promotion">
+            <h3 class="promotion-title">Envío Gratis a Todo el País</h3>
+            <p class="promotion-description">Recibe tu telefono en la puerta de tu casa sin costo adicional.</p>
+        </div>
+        <div class="promotion">
+            <h3 class="promotion-title">Descuento con Transferencia</h3>
+            <p class="promotion-description">Obtén un descuento especial al pagar con transferencia bancaria.</p>
         </div>
     </div>
-    {{/each}}
-</div>
-</div>
+</section>
+
+    <section id="contacto" class="contact">
+        <div class="container">
+            <h2 class="section-title">Contáctanos</h2>
+            <p class="contact-description">¿Tienes alguna pregunta? ¡Contáctanos!</p>
+            <a href="mailto:info@opticaflex.com" class="btn btn-primary">Enviar correo</a>
+        </div>
+    </section>
+
+</div>   
