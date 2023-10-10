@@ -1,3 +1,4 @@
+
 const websiteUrl = 'http://localhost:3000'
 
 const ConvertPrice = (amount, add) => {// recibe dos valores: un numero y un texto para agregar entre separaciones (Esto para convertir el amount en un texto mas bonito para el usuario)
@@ -69,7 +70,7 @@ const adminButtons = async (parent) => {
 
             prodDeleteButton.addEventListener("click", async () => {
 
-                const res = await fetch(`/api/products/admin-delete/${content[2]}`)
+                const res = await fetch(`/api/products/${content[2]}`, { method: "DELETE"})
 
                 if (res.status == 200){
                     window.location.replace("/products")

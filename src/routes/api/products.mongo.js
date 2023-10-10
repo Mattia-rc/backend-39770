@@ -3,9 +3,27 @@ import Products from '../../dao/mongo/models/product.model.js'
 import authorization from "../../middlewares/authorization.js"
 import product_edit from "../../middlewares/product_edit.js"
 
+
 import jwt from "jsonwebtoken"
+import nodemailer from "nodemailer"
+
+import { config } from "../../config/config.js"
+
+import Users from "../../dao/mongo/models/user.model.js"
 
 const router = Router()
+
+const transport = nodemailer.createTransport({
+    service: 'gmail',
+    port: 587,
+    auth: {
+        user: config.gmail_user_app,
+        pass: config.gmail_pass_app,
+    },
+    tls: {
+        rejectUnauthorized: false,
+    },
+});
 
 router.get("/canEdit/:productId", product_edit, async (req, res, next) => {
     try {
@@ -14,7 +32,7 @@ router.get("/canEdit/:productId", product_edit, async (req, res, next) => {
             message: "user can edit this product"
         })
 
-    } catch(err) {
+    } catch (err) {
         return res.json(500).json({
             success: false,
             message: err.message
@@ -22,11 +40,11 @@ router.get("/canEdit/:productId", product_edit, async (req, res, next) => {
     }
 })
 
-router.get("/admin-delete/:productId", product_edit, async(req, res, next) => {
+router.get("/admin-delete/:productId", product_edit, async (req, res, next) => {
     try {
         const { _id } = req.product
         const deleted = await Products.findByIdAndDelete(_id)
-        
+
         console.log(deleted)
         if (deleted) return res.status(200).json({
             success: true,
@@ -38,7 +56,7 @@ router.get("/admin-delete/:productId", product_edit, async(req, res, next) => {
             message: "idk"
         })
 
-    } catch(err) {
+    } catch (err) {
         console.log(err);
         next(err);
     }
@@ -60,18 +78,10 @@ router.post('/', authorization, async (req, res, next) => {
         let thumbnail = req.body.thumbnail
         let stock = Number(req.body.stock)
 
-        /* Nose como llego esto aca
-        CustomError.CreateError({
-            name: "User creation error",
-            cause: generateUserErrorInfo({first_name, last_name, mail}),
-            message: "Error: Trying to create user",
-            code: ErrorEnum.INVALID_TYPES_ERROR
-        })*/
-
         // Ejecutar la función de añadir producto correctamente y manejar errores
-        let response = await Products.create({ title, description, price, thumbnail, stock, owner});
+        let response = await Products.create({ title, description, price, thumbnail, stock, owner });
         if (response) {
-            return res.redirect(`/products/${response._id}`) 
+            return res.redirect(`/products/${response._id}`)
             // return res.status(201).json(response);
         }
 
@@ -155,6 +165,18 @@ router.delete('/:pid', authorization, async (req, res, next) => {
         let id = String(req.params.pid)
         let response = await Products.findByIdAndDelete(id)
         if (response) {
+            const owner = response.owner
+            if (owner != "admin") {
+                const ownerdata = await Users.findById(owner)
+                if (ownerdata != null) {
+                    await transport.sendMail({
+                        from: process.env.GMAIL_USER_APP,
+                        to: ownerdata.mail,
+                        subject: 'Producto Eliminado',
+                        text: `Se ha borrado el producto ${response.title} (ID: ${response._id})`,
+                    })
+                }
+            }
             return res.status(200).json({ message: 'product deleted' })
         }
         return res.status(404).json({ message: 'not found' })

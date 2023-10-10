@@ -9,7 +9,14 @@ const UserSchema = new mongoose.Schema({
     mail: { type: String, required: true, index: true, unique: true },
     password: { type: String, required: true },
     age: { type: Number , default: 18 },
-    role: { type: String, enum: ["user", "admin", "premium"], default: "user"}
+    role: { type: String, enum: ["user", "admin", "premium"], default: "user"},
+    last_connection: { type: Date, default: Date.now, required: true },
+    documents: [new mongoose.Schema({
+        name: { type: String},
+        reference: { type: String}
+    })],
+    
+    verified: {type: Boolean, required: true, default: false}
 });
 
 UserSchema.plugin(mongoosePaginate);
